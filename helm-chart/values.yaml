@@ -1,3 +1,4 @@
 config:
   indexHtml: |
-    PLACEHOLDER_HTML
+    index.html
+
