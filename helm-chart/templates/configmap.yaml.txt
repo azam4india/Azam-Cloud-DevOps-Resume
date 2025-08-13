@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: resume-config
+data:
+  index.html: |-
+{{ .Values.config.indexHtml | indent 4 }}
