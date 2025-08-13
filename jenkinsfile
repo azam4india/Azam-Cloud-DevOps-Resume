@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Deploy with Helm') {
             steps {
-                sh 'helm upgrade --install resume ./helm-chart --set config.indexHtml="$(cat resume.html)"'
+                sh 'helm upgrade --install resume ./helm-chart --set config.indexHtml="$(cat index.html)"'
             }
         }
         stage('Show Access URL') {
@@ -22,3 +22,4 @@ pipeline {
         }
     }
 }
+
