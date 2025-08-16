@@ -50,6 +50,12 @@ pipeline {
         stage('Show Access URL') {
             steps {
                 sh '''
+                    export KUBECONFIG=/c/Users/Azam/.kube/config
+                    kubectl config use-context docker-desktop || { echo "Docker Desktop context not found"; exit 1; }
+
+                    # Verify cluster connectivity
+                    kubectl cluster-info || { echo "Kubernetes cluster not reachable"; exit 1; }
+                    
                     echo "Fetching service URL..."
                     kubectl get svc resume -o wide || echo "Service 'resume' not found"
                 '''
@@ -57,3 +63,4 @@ pipeline {
         }
     }
 }
+
