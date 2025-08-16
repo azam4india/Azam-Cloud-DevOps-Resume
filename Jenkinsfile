@@ -22,28 +22,12 @@ pipeline {
         stage('Install Helm & Deploy') {
             steps {
                 sh '''
-                    if ! command -v helm &> /dev/null; then
-                        curl -fsSL https://get.helm.sh/helm-v3.14.0-linux-amd64.tar.gz -o helm.tar.gz
-                        tar -zxvf helm.tar.gz
-                        mv linux-amd64/helm ./
-                    fi
+                    # Set Helm path
+                    HELM_PATH=/c/Users/Azam/helm/helm.exe
 
-                    ./helm upgrade --install resume ./helm-chart -f ./helm-chart/values.yaml
-                       
-                '''
-            }
-        }
-        stage('Show Access URL') {
-            steps {
-                sh '''
-                    url=$(minikube service resume --url)
-                    echo "Resume available at: $url"
-                '''
-            }
-        }
-    }
-}
-
-
-
+                    # Download Helm if not present
+                    if [ ! -f "$HELM_PATH" ]; then
+                        curl -fsSL https://get.helm.sh/helm-v3.14.0-windows-amd64.zip -o helm.zip
+                        unzip helm.zip
+                        mv w
 
