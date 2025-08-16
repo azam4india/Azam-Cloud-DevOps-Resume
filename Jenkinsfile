@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh '''
                     HELM_PATH=/c/Users/Azam/helm/helm.exe
-                    KUBECONFIG = /c/Users/Azam/.kube/config
+                    KUBECONFIG=/c/Users/Azam/.kube/config
 
                     if [ ! -f "$HELM_PATH" ]; then
                         curl -fsSL https://get.helm.sh/helm-v3.14.0-windows-amd64.zip -o helm.zip
@@ -45,5 +45,6 @@ pipeline {
         }
     }
 }
+
 
 
