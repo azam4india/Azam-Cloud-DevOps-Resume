@@ -19,21 +19,6 @@ pipeline {
                 '''
             }
         }
-        stage('Ensure Minikube is Running') {
-            steps {
-                sh '''
-                    # Check if Minikube is running, otherwise start it
-                    if ! minikube status | grep -q "host: Running"; then
-                        echo "Minikube is not running. Starting..."
-                        minikube start --driver=docker
-                    else
-                        echo "Minikube is already running."
-                    fi
-
-                    minikube status
-                '''
-            }
-        }
         stage('Install Helm & Deploy') {
             steps {
                 sh '''
@@ -61,10 +46,12 @@ pipeline {
         stage('Show Access URL') {
             steps {
                 sh '''
-                    url=$(minikube service resume --url)
-                    echo "Resume available at: $url"
+                    # Show service URLs in Docker Desktop Kubernetes
+                    kubectl get svc
+                    echo "Access your app via NodePort/LoadBalancer service (check above)."
                 '''
             }
         }
     }
 }
+
