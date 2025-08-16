@@ -22,17 +22,15 @@ pipeline {
         stage('Install Helm & Deploy') {
             steps {
                 sh '''
-                    # Set Helm path
                     HELM_PATH=/c/Users/Azam/helm/helm.exe
 
-                    # Download Helm if not present
                     if [ ! -f "$HELM_PATH" ]; then
                         curl -fsSL https://get.helm.sh/helm-v3.14.0-windows-amd64.zip -o helm.zip
                         unzip helm.zip
                         mv windows-amd64/helm.exe $HELM_PATH
                     fi
 
-                    # Use Helm to deploy chart with values.yaml
+                    eval \$(minikube -p minikube docker-env)
                     "$HELM_PATH" upgrade --install resume ./helm-chart -f ./helm-chart/values.yaml
                 '''
             }
@@ -47,3 +45,4 @@ pipeline {
         }
     }
 }
+
