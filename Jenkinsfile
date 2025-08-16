@@ -28,8 +28,8 @@ pipeline {
                         mv linux-amd64/helm ./
                     fi
 
-                    helm upgrade --install resume ./helm-chart \
-                        --set config.indexHtml="$(cat index.html)"
+                    ./helm upgrade --install resume ./helm-chart -f ./helm-chart/values.yaml
+                       
                 '''
             }
         }
@@ -43,6 +43,7 @@ pipeline {
         }
     }
 }
+
 
 
 
