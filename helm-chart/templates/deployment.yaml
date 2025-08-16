@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,15 +15,15 @@ spec:
         app: {{ .Release.Name }}
     spec:
       containers:
-        - name: {{ .Release.Name }}
-          image: nginx:latest
+        - name: resume
+          image: nginx:alpine
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: html
+            - name: html-volume
               mountPath: /usr/share/nginx/html/index.html
               subPath: index.html
       volumes:
-        - name: html
+        - name: html-volume
           configMap:
-            name: {{ .Release.Name }}-config
+            name: resume-html   # <-- reference external ConfigMap
