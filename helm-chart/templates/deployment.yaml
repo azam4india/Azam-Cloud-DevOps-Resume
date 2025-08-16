@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: resume
   labels:
-    app: {{ .Release.Name }}
+    app: resume
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: resume
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: resume
     spec:
       containers:
         - name: resume
-          image: nginx:alpine
+          image: nginx:latest
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: html-volume
+            - name: resume-html
               mountPath: /usr/share/nginx/html/index.html
               subPath: index.html
       volumes:
-        - name: html-volume
+        - name: resume-html
           configMap:
-            name: resume-html   # <-- reference external ConfigMap
+            name: resume-html
