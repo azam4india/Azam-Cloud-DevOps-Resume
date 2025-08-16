@@ -11,7 +11,7 @@ pipeline {
         stage('Fetch index.html from GitHub') {
             steps {
                 sh '''
-                    curl -o index.html https://raw.githubusercontent.com/<your-username>/<your-repo>/main/index.html
+                    curl -o index.html https://raw.githubusercontent.com/azam4india/Azam-Cloud-DevOps-Resume/main/index.html
                 '''
             }
         }
@@ -45,3 +45,4 @@ pipeline {
         }
     }
 }
+
