@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        # Set KUBECONFIG to point to your Minikube cluster
         KUBECONFIG = "C:/Users/Azam/.kube/config"
         HELM_PATH = "C:/Users/Azam/helm/helm.exe"
         TERRAFORM_PATH = "C:/Program Files/Terraform"
@@ -60,3 +59,4 @@ pipeline {
         }
     }
 }
+
