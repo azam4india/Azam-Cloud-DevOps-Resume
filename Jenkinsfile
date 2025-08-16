@@ -51,7 +51,7 @@ pipeline {
         stage('Show Access URL') {
             steps {
                 sh """
-                    export KUBECONFIG=${KUBECONFIG}
+                    export KUBECONFIG="${KUBECONFIG}"
                     url=$(minikube service resume --url)
                     echo "Resume available at: \$url"
                 """
@@ -59,4 +59,5 @@ pipeline {
         }
     }
 }
+
 
