@@ -34,10 +34,8 @@ pipeline {
                     MINIKUBE_IP=$(minikube ip)
                     echo "Minikube IP: $MINIKUBE_IP"
         
-                    # Use custom KUBECONFIG pointing to Minikube IP
                     export KUBECONFIG=/c/Users/Azam/.kube/config
-                    # Update the server address in KUBECONFIG to Minikube IP
-                    sed -i "s/server: https:\\/\\/127.0.0.1:.*$/server: https:\\/\\/$MINIKUBE_IP:6443/" $KUBECONFIG
+                    kubectl config use-context docker-desktop
                     
                     "$HELM_PATH" upgrade --install resume ./helm-chart -f ./helm-chart/values.yaml
                 '''
@@ -53,6 +51,7 @@ pipeline {
         }
     }
 }
+
 
 
 
