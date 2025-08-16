@@ -25,7 +25,7 @@ pipeline {
                     if ! command -v helm &> /dev/null; then
                         curl -fsSL https://get.helm.sh/helm-v3.14.0-linux-amd64.tar.gz -o helm.tar.gz
                         tar -zxvf helm.tar.gz
-                        mv linux-amd64/helm .
+                        mv linux-amd64/helm ./
                     fi
 
                     helm upgrade --install resume ./helm-chart \
@@ -43,5 +43,6 @@ pipeline {
         }
     }
 }
+
 
 
