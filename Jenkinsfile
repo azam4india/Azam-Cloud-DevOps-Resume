@@ -23,6 +23,7 @@ pipeline {
             steps {
                 sh '''
                     HELM_PATH=/c/Users/Azam/helm/helm.exe
+                    KUBECONFIG = /c/Users/Azam/.kube/config
 
                     if [ ! -f "$HELM_PATH" ]; then
                         curl -fsSL https://get.helm.sh/helm-v3.14.0-windows-amd64.zip -o helm.zip
@@ -30,7 +31,6 @@ pipeline {
                         mv windows-amd64/helm.exe $HELM_PATH
                     fi
 
-                    eval \$(minikube -p minikube docker-env)
                     "$HELM_PATH" upgrade --install resume ./helm-chart -f ./helm-chart/values.yaml
                 '''
             }
@@ -45,4 +45,5 @@ pipeline {
         }
     }
 }
+
 
