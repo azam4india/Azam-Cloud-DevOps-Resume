@@ -1,30 +1,44 @@
 pipeline {
-    agent {
-        docker {
-            image 'hashicorp/terraform:1.5.0'   // Linux container with Terraform
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // If you need Docker inside
-        }
-    }
+    agent any
     stages {
-        stage('Terraform Apply') {
+        stage('Check Terraform Version') {
             steps {
-                sh 'terraform init'
-                sh 'terraform apply -auto-approve'
+                sh '''
+                    export PATH=$PATH:/c/Program\\ Files/Terraform
+                    terraform version
+                '''
             }
         }
-        stage('Deploy with Helm') {
+        stage('Terraform Apply') {
             steps {
-                // Install helm if not in base image
-                sh 'apk add --no-cache curl bash tar && curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash'
-                sh 'helm upgrade --install resume ./helm-chart --set config.indexHtml="$(cat index.html)"'
+                checkout scm
+                sh '''
+                    export PATH=$PATH:/c/Program\\ Files/Terraform
+                    terraform init
+                    terraform apply -auto-approve
+                '''
+            }
+        }
+        stage('Install Helm & Deploy') {
+            steps {
+                sh '''
+                    if ! command -v helm &> /dev/null; then
+                        curl -fsSL https://get.helm.sh/helm-v3.14.0-linux-amd64.tar.gz -o helm.tar.gz
+                        tar -zxvf helm.tar.gz
+                        mv linux-amd64/helm /usr/local/bin/helm
+                    fi
+
+                    helm upgrade --install resume ./helm-chart \
+                        --set config.indexHtml="$(cat index.html)"
+                '''
             }
         }
         stage('Show Access URL') {
             steps {
-                script {
-                    def url = sh(returnStdout: true, script: "minikube service resume --url").trim()
-                    echo "Resume available at: ${url}"
-                }
+                sh '''
+                    url=$(minikube service resume --url)
+                    echo "Resume available at: $url"
+                '''
             }
         }
     }
