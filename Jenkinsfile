@@ -19,6 +19,21 @@ pipeline {
                 '''
             }
         }
+        stage('Ensure Minikube is Running') {
+            steps {
+                sh '''
+                    # Check if Minikube is running, otherwise start it
+                    if ! minikube status | grep -q "host: Running"; then
+                        echo "Minikube is not running. Starting..."
+                        minikube start --driver=docker
+                    else
+                        echo "Minikube is already running."
+                    fi
+
+                    minikube status
+                '''
+            }
+        }
         stage('Install Helm & Deploy') {
             steps {
                 sh '''
@@ -35,8 +50,10 @@ pipeline {
                     echo "Minikube IP: $MINIKUBE_IP"
         
                     export KUBECONFIG=/c/Users/Azam/.kube/config
-                    kubectl config use-context docker-desktop
                     
+                    # Use Minikube context instead of docker-desktop
+                    kubectl config use-context minikube
+
                     "$HELM_PATH" upgrade --install resume ./helm-chart -f ./helm-chart/values.yaml
                 '''
             }
@@ -51,8 +68,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-
