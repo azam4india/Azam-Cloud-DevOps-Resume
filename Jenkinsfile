@@ -29,5 +29,21 @@ pipeline {
                     if [ ! -f "$HELM_PATH" ]; then
                         curl -fsSL https://get.helm.sh/helm-v3.14.0-windows-amd64.zip -o helm.zip
                         unzip helm.zip
-                        mv w
+                        mv windows-amd64/helm.exe $HELM_PATH
+                    fi
 
+                    # Use Helm to deploy chart with values.yaml
+                    "$HELM_PATH" upgrade --install resume ./helm-chart -f ./helm-chart/values.yaml
+                '''
+            }
+        }
+        stage('Show Access URL') {
+            steps {
+                sh '''
+                    url=$(minikube service resume --url)
+                    echo "Resume available at: $url"
+                '''
+            }
+        }
+    }
+}
