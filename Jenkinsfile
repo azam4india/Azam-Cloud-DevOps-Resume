@@ -1,28 +1,22 @@
 pipeline {
     agent any
-
     stages {
-        stage('Checkout Repo') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Fetch index.html from GitHub') {
+        stage('Check Terraform Version') {
             steps {
                 sh '''
-                    curl -o index.html https://raw.githubusercontent.com/azam4india/Azam-Cloud-DevOps-Resume/main/index.html
+                    export PATH=$PATH:/c/Program\\ Files/Terraform
+                    terraform version
                 '''
             }
         }
 
-        stage('Update values.yaml with HTML') {
+        stage('Terraform Apply') {
             steps {
+                checkout scm
                 sh '''
-                    INDEX_HTML=$(cat index.html | sed 's/"/\\"/g')
-                    echo "config:" > ./helm-chart/values.yaml
-                    echo "  indexHtml: |" >> ./helm-chart/values.yaml
-                    echo "$INDEX_HTML" | sed 's/^/    /' >> ./helm-chart/values.yaml
+                    export PATH=$PATH:/c/Program\\ Files/Terraform
+                    terraform init
+                    terraform apply -auto-approve
                 '''
             }
         }
@@ -69,5 +63,6 @@ pipeline {
         }
     }
 }
+
 
 
