@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: resume
-          image: nginx:local
+          image: ghcr.io/nginxinc/nginx-unprivileged:1.25
           ports:
             - containerPort: 80
           volumeMounts:
