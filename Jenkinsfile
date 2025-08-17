@@ -56,6 +56,7 @@ pipeline {
                     # Verify cluster connectivity
                     kubectl cluster-info || { echo "Kubernetes cluster not reachable"; exit 1; }
                     
+                    kubectl apply -f ./helm-chart/templates/deployment.yaml
                     kubectl rollout restart deployment resume
                                         
                     echo "Fetching service URL..."
@@ -65,6 +66,7 @@ pipeline {
         }
     }
 }
+
 
 
 
