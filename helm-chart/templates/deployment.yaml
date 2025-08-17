@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: resume
-          image: nginx:latest
+          image: mcr.microsoft.com/oss/nginx/nginx:1.25
           ports:
             - containerPort: 80
           volumeMounts:
