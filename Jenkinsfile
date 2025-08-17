@@ -57,6 +57,7 @@ pipeline {
                     kubectl cluster-info || { echo "Kubernetes cluster not reachable"; exit 1; }
                     
                     kubectl apply -f deployment.yaml
+                    kubectl rollout restart deployment resume
                     
                     echo "Fetching service URL..."
                     kubectl get svc resume -o wide || echo "Service 'resume' not found"
@@ -65,6 +66,7 @@ pipeline {
         }
     }
 }
+
 
 
 
