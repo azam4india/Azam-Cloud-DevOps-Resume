@@ -56,6 +56,8 @@ pipeline {
                     # Verify cluster connectivity
                     kubectl cluster-info || { echo "Kubernetes cluster not reachable"; exit 1; }
                     
+                    kubectl apply -f deployment.yaml
+                    
                     echo "Fetching service URL..."
                     kubectl get svc resume -o wide || echo "Service 'resume' not found"
                 '''
@@ -63,6 +65,7 @@ pipeline {
         }
     }
 }
+
 
 
 
